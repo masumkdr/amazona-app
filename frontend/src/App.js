@@ -1,5 +1,8 @@
 import React from 'react';
-import data from './data';
+import {Route } from 'react-router-dom';
+import HomeScreen from './screens/HomeScreen';
+import ProductScreen from './screens/ProductScreen';
+
 
 function App() {
   return (
@@ -14,46 +17,9 @@ function App() {
         </div>
       </header>
       <main>
-        <div className="row center">
-
-          {
-            data.products.map(product => {
-              return (
-                <div className="card" key={product._id}>
-                  <a href={`/products/${product._id}`}>
-
-                    <img src={product.image} alt={product.name} className="medium" />
-                  </a>
-                  <div className="card-body">
-                    <a href="product.html">
-                      <h2>{product.name}</h2>
-                    </a>
-                    <div className="rating">
-                      <span>
-                        <i className="fa fa-star"></i>
-                      </span>
-                      <span>
-                        <i className="fa fa-star"></i>
-                      </span>
-                      <span>
-                        <i className="fa fa-star"></i>
-                      </span>
-                      <span>
-                        <i className="fa fa-star"></i>
-                      </span>
-                  
-                    </div>
-                    <div className="price">
-                      <p>${product.price}</p>
-                    </div>
-                  </div>
-                </div>
-              )
-            })
-          }
-
-
-        </div>
+        <Route path="/" component={HomeScreen} exact />
+        <Route path="/product/:id" component={ProductScreen} exact />
+        
       </main>
       <footer className="row center">
         All right Reserved by amazona
