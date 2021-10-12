@@ -1,31 +1,42 @@
-import React, {useState, useEffect} from 'react';
+import React, { useEffect } from 'react';
 import Product from '../components/Product';
-import axios from 'axios';
+import LoadingBox from '../components/LoadingBox';
+import MessageBox from '../components/MessageBox';
+import { useSelector, useDispatch } from 'react-redux';
+import { listProduct } from '../actions/productActions';
+
+
+
 
 export default function HomeScreen() {
-    const [products, setProducts] = useState([]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const { data } = await axios.get('/api/products')
-            setProducts(data);
-        }
-        fetchData();
-    }, [])
+	const dispatch = useDispatch();
+	const productList = useSelector(state => state.productList);
+	const { loading, error, products } = productList;
 
-
-    return (
-        <div className="row center">
-
-          {
-            products.map(product => {
-              return (
-                <Product  key={product._id} product={product} />
-              )
-            })
-          }
+	useEffect(() => {
+		dispatch(listProduct())
+	}, [dispatch])
 
 
-        </div>
-    )
+	return (
+		<div>
+
+			{loading ? <LoadingBox /> 
+			: error ? <MessageBox variant="danger">{error}</MessageBox>
+			: (<div className="row center">
+				{
+					products.map(product => {
+						return (
+							<Product key={product._id} product={product} />
+						)
+					})
+				}
+
+
+			</div>)}
+		</div>
+			
+
+	)
 }
